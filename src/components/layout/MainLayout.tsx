@@ -1,9 +1,8 @@
 import { Layout, Menu, MenuProps, } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
 
-import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
-import { createElement } from 'react';
-import { Outlet } from 'react-router-dom';
+
+import { NavLink, Outlet } from 'react-router-dom';
 
 const items: MenuProps['items'] = [
    {
@@ -14,18 +13,23 @@ const items: MenuProps['items'] = [
       key: '2',
       label: 'Profile',
    },
+
    {
       key: '3',
       label: 'User Management',
       children:[
          {
-            key: '31',
-            label: 'Create Admin',
+            key: 'Create Admin',
+            label: <NavLink to={'/admin/create-admin'}>Create Admin</NavLink>,
          },
          {
-            key: '32',
-            label: 'Create Student'
-         }
+            key: 'Create Faculty',
+            label: <NavLink to={'/admin/create-faculty'}>Create Faculty</NavLink>,
+         },
+         {
+            key: 'Create Student',
+            label: <NavLink to={'/admin/create-student'}>Create Student</NavLink>,
+         },
       ]
    }
 ]
