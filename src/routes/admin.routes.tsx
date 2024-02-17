@@ -39,20 +39,25 @@ type TSidebarItem ={
             name: 'Create Student',
             path: 'create-student',
             element: <CreateStudent/>
-         }
+         },
+         {
+            name: 'Create Member',
+            path: 'create-member',
+            element: <CreateStudent/>
+         },
       ]
    },
 
-   {
-      name: 'Course Management',
-      children:[
-         {
-            name: 'Offered Course',
-            path: 'offered-course',
-            element: <CreateAdmin/>
-         },
-      ]
-   }
+   // {
+   //    name: 'Course Management',
+   //    children:[
+   //       {
+   //          name: 'Offered Course',
+   //          path: 'offered-course',
+   //          element: <CreateAdmin/>
+   //       },
+   //    ]
+   // }
 ]
 
 // admin sidebar items 
