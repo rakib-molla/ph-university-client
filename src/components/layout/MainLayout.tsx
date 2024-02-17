@@ -3,6 +3,7 @@ const { Header, Content, Footer, Sider } = Layout;
 
 import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
 import { createElement } from 'react';
+import { Outlet } from 'react-router-dom';
 
 const items: MenuProps['items'] = [
    {
@@ -62,7 +63,7 @@ const MainLayout = () => {
               
             }}
           >
-            <h1>the main content should go ahed</h1>
+            <Outlet/>
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>
