@@ -5,35 +5,35 @@ const { Header, Content, Footer, Sider } = Layout;
 import { NavLink, Outlet } from 'react-router-dom';
 import { adminSidebarItems } from '../../routes/admin.routes';
 
-const items: MenuProps['items'] = [
-   {
-      key: '1',
-      label: 'Dashboard',
-   },
-   {
-      key: '2',
-      label: 'Profile',
-   },
+// const items: MenuProps['items'] = [
+//    {
+//       key: '1',
+//       label: 'Dashboard',
+//    },
+//    {
+//       key: '2',
+//       label: 'Profile',
+//    },
 
-   {
-      key: '3',
-      label: 'User Management',
-      children:[
-         {
-            key: 'Create Admin',
-            label: <NavLink to={'/admin/create-admin'}>Create Admin</NavLink>,
-         },
-         {
-            key: 'Create Faculty',
-            label: <NavLink to={'/admin/create-faculty'}>Create Faculty</NavLink>,
-         },
-         {
-            key: 'Create Student',
-            label: <NavLink to={'/admin/create-student'}>Create Student</NavLink>,
-         },
-      ]
-   }
-]
+//    {
+//       key: '3',
+//       label: 'User Management',
+//       children:[
+//          {
+//             key: 'Create Admin',
+//             label: <NavLink to={'/admin/create-admin'}>Create Admin</NavLink>,
+//          },
+//          {
+//             key: 'Create Faculty',
+//             label: <NavLink to={'/admin/create-faculty'}>Create Faculty</NavLink>,
+//          },
+//          {
+//             key: 'Create Student',
+//             label: <NavLink to={'/admin/create-student'}>Create Student</NavLink>,
+//          },
+//       ]
+//    }
+// ]
 
 
 const MainLayout = () => {
