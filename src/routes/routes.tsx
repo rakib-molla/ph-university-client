@@ -3,6 +3,8 @@ import App from "../App";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import { adminRoutes } from "./admin.routes";
+import { facultyPaths } from "./faculty.routes";
+import { studentPaths } from "./student.routes";
 
 
 
@@ -20,12 +22,12 @@ const router = createBrowserRouter([
    {
       path: '/faculty',
       element: <App/>,
-      children: adminRoutes
+      children: facultyPaths
    },
    {
       path: '/student',
       element: <App/>,
-      children: adminRoutes
+      children: studentPaths
    },
 
    {
