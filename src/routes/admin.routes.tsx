@@ -19,7 +19,7 @@ type TSidebarItem ={
  const adminPaths = [
    {
       name: 'Dashboard',
-      path: '/admin/dashboard',
+      path: 'dashboard',
       element: <AdminDashboard/>
    },
    {
@@ -70,7 +70,7 @@ export const adminSidebarItems = adminPaths.reduce((acc: TSidebarItem[],item)=>{
          label: item.name,
          children: item.children.map((child)=>({
             key: child.name,
-         label: <NavLink to={`/admin/${child.path}`}>{child.name}</NavLink>,
+            label: <NavLink to={`/admin/${child.path}`}>{child.name}</NavLink>,
          }))
       })
    }
@@ -102,7 +102,6 @@ export const adminRoutes = adminPaths.reduce((acc: TRoute[], item)=>{
 
 
 // hard coded
-
 // export const adminPaths = [
 //    {
 //       index: true,
