@@ -3,6 +3,7 @@ const { Header, Content, Footer, Sider } = Layout;
 
 
 import { NavLink, Outlet } from 'react-router-dom';
+import { adminSidebarItems } from '../../routes/admin.routes';
 
 const items: MenuProps['items'] = [
    {
@@ -55,7 +56,7 @@ const MainLayout = () => {
         <Menu theme="dark"
          mode="inline" 
          defaultSelectedKeys={['4']}
-          items={items} />
+          items={adminSidebarItems} />
       </Sider>
       <Layout>
         <Header style={{ padding: 0, }} />
