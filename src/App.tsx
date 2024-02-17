@@ -1,5 +1,12 @@
-function App() {
-  return <h1>Ph university management</h1>;
-}
+import MainLayout from "./components/layout/MainLayout";
+
+
+const App = () => {
+  return (
+    <div>
+      <MainLayout/>
+    </div>
+  );
+};
 
 export default App;
