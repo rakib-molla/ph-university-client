@@ -23,12 +23,12 @@ const router = createBrowserRouter([
    {
       path: '/faculty',
       element: <App/>,
-      children: facultyPaths
+      children: routeGenerator(facultyPaths)
    },
    {
       path: '/student',
       element: <App/>,
-      children: studentPaths
+      children: routeGenerator(studentPaths)
    },
 
    {
