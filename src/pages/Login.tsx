@@ -1,18 +1,23 @@
 import { Button, Checkbox, Form, Input } from "antd";
 import { useLoginMutation } from "../redux/features/auth/authApi";
+import { useAppDispatch } from "../redux/hook";
+import { setUser } from "../redux/features/auth/authSlice";
+import { verifyToken } from "../utils/verifyToken";
 
 const Login = () => {
-  const [login, { data, error }] = useLoginMutation();
-
-  console.log("data =>", data);
-  console.log("error =>", error);
-
-  const onFinish = (values: any) => {
+  const [login, { error }] = useLoginMutation();
+  const dispatch = useAppDispatch();
+  const onFinish = async (values: any) => {
     const userInfo = {
       id: values.id,
       password: values.password,
     };
-    login(userInfo);
+    const res = await login(userInfo).unwrap();
+    const user = verifyToken(res.data.accessToken);
+
+    console.log(user);
+
+    dispatch(setUser({ user: user, token: res.data.accessToken }));
   };
 
   const onFinishFailed = (errorInfo: any) => {
