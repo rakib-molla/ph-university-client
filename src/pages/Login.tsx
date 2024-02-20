@@ -6,14 +6,16 @@ import { verifyToken } from "../utils/verifyToken";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { FieldValues } from "react-hook-form";
+import PHInput from "../components/form/PHInput";
+import PHForm from "../components/form/PHForm";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [login, ] = useLoginMutation();
+  const [login] = useLoginMutation();
   const dispatch = useAppDispatch();
 
   const onFinish = async (values: FieldValues) => {
-   const toastId = toast.loading('Login in');
+    const toastId = toast.loading("Login in");
 
     try {
       const userInfo = {
@@ -21,18 +23,16 @@ const Login = () => {
         password: values.password,
       };
       const res = await login(userInfo).unwrap();
-      const user = verifyToken(res.data.accessToken) as TUser ;
-  
-      console.log(user);
-  
-      dispatch(setUser({ user: user, token: res.data.accessToken }));
-      toast.success("Logged In", {id: toastId, duration: 2000});
-      navigate(`/${user.role}/dashboard`)
-    } catch (err) {
-      toast.error("Something Went Wrong", {id: toastId, duration: 2000});
-    }
+      const user = verifyToken(res.data.accessToken) as TUser;
 
-    
+      console.log(user);
+
+      dispatch(setUser({ user: user, token: res.data.accessToken }));
+      toast.success("Logged In", { id: toastId, duration: 2000 });
+      navigate(`/${user.role}/dashboard`);
+    } catch (err) {
+      toast.error("Something Went Wrong", { id: toastId, duration: 2000 });
+    }
   };
 
   const onFinishFailed = (errorInfo: FieldValues) => {
@@ -45,61 +45,20 @@ const Login = () => {
     remember?: string;
   };
 
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
   return (
-    <div
-      style={{
-        height: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        width: "100%",
-      }}
-    >
-      <div
-        style={{ background: "pink", borderRadius: "20px", padding: "10px" }}
-      >
-        <Form
-          name="basic"
-          labelCol={{ span: 8 }}
-          wrapperCol={{ span: 80 }}
-          style={{ width: 600 }}
-          initialValues={{ remember: true }}
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-          autoComplete="off"
-        >
-          <Form.Item<FieldType>
-            label="Id"
-            name="id"
-            rules={[{ required: true, message: "Please input your ID!" }]}
-          >
-            <Input />
-          </Form.Item>
-
-          <Form.Item<FieldType>
-            label="Password"
-            name="password"
-            rules={[{ required: true, message: "Please input your password!" }]}
-          >
-            <Input.Password />
-          </Form.Item>
-
-          <Form.Item<FieldType>
-            name="remember"
-            valuePropName="checked"
-            wrapperCol={{ offset: 8, span: 16 }}
-          >
-            <Checkbox>Remember me</Checkbox>
-          </Form.Item>
-
-          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Button type="primary" htmlType="submit">
-              Submit
-            </Button>
-          </Form.Item>
-        </Form>
+    <PHForm onSubmit={onSubmit}>
+      <div>
+        <PHInput type="text" name="userId" label="ID:" />
       </div>
-    </div>
+      <div>
+        <PHInput type="text" name="password" label="Password:" />
+      </div>
+      <Button htmlType="submit">Login</Button>
+    </PHForm>
   );
 };
 
