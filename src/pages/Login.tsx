@@ -1,4 +1,4 @@
-import { Button, Checkbox, Form, Input } from "antd";
+import { Button, Row } from "antd";
 import { useLoginMutation } from "../redux/features/auth/authApi";
 import { useAppDispatch } from "../redux/hook";
 import { TUser, setUser } from "../redux/features/auth/authSlice";
@@ -14,13 +14,22 @@ const Login = () => {
   const [login] = useLoginMutation();
   const dispatch = useAppDispatch();
 
-  const onFinish = async (values: FieldValues) => {
+
+
+  // type FieldType = {
+  //   id?: string;
+  //   password?: string;
+  //   remember?: string;
+  // };
+
+  const onSubmit = async (data: FieldValues) => {
+    console.log(data);
     const toastId = toast.loading("Login in");
 
     try {
       const userInfo = {
-        id: values.id,
-        password: values.password,
+        id: data.id,
+        password: data.password,
       };
       const res = await login(userInfo).unwrap();
       const user = verifyToken(res.data.accessToken) as TUser;
@@ -35,30 +44,15 @@ const Login = () => {
     }
   };
 
-  const onFinishFailed = (errorInfo: FieldValues) => {
-    console.log("Failed:", errorInfo);
-  };
-
-  type FieldType = {
-    id?: string;
-    password?: string;
-    remember?: string;
-  };
-
-  const onSubmit = (data) => {
-    console.log(data);
-  };
-
   return (
+    <Row justify={'center'} align={'middle'} style={{height: '100vh'}}> 
     <PHForm onSubmit={onSubmit}>
-      <div>
-        <PHInput type="text" name="userId" label="ID:" />
-      </div>
-      <div>
+        <PHInput type="text" name="id" label="ID:" />
         <PHInput type="text" name="password" label="Password:" />
-      </div>
       <Button htmlType="submit">Login</Button>
     </PHForm>
+    </Row>
+
   );
 };
 
