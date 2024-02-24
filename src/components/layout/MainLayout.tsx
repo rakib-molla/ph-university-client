@@ -8,36 +8,6 @@ import Sidebar from './Sidebar';
 import { useAppDispatch } from './../../redux/hook';
 import { logout } from '../../redux/features/auth/authSlice';
 
-// const items: MenuProps['items'] = [
-//    {
-//       key: '1',
-//       label: 'Dashboard',
-//    },
-//    {
-//       key: '2',
-//       label: 'Profile',
-//    },
-
-//    {
-//       key: '3',
-//       label: 'User Management',
-//       children:[
-//          {
-//             key: 'Create Admin',
-//             label: <NavLink to={'/admin/create-admin'}>Create Admin</NavLink>,
-//          },
-//          {
-//             key: 'Create Faculty',
-//             label: <NavLink to={'/admin/create-faculty'}>Create Faculty</NavLink>,
-//          },
-//          {
-//             key: 'Create Student',
-//             label: <NavLink to={'/admin/create-student'}>Create Student</NavLink>,
-//          },
-//       ]
-//    }
-// ]
-
 
 const MainLayout = () => {
 
@@ -47,7 +17,7 @@ const MainLayout = () => {
   }
 
    return (
-      <Layout style={{height: '100vh'}}>
+      <Layout style={{height: '100%'}}>
       <Sidebar/>
       <Layout>
         <Header> <Button onClick={handleLogout}>Logout</Button> </Header>
