@@ -4,10 +4,11 @@ import { Table } from 'antd';
 import type { TableColumnsType, TableProps } from 'antd';
 import { TAcademicSemester } from "../../../types/academicManagement.type";
 import { useState } from "react";
+import { TQueryParm } from "../../../types/global";
 
 const AcademicSemester = () => {
-   const [params, setParams] = useState([]);
-   const {data: semesterData} = useGetAllSemesterQuery(params);
+   const [params, setParams] = useState<TQueryParm[] | undefined>([]);
+   const {data: semesterData, isFetching} = useGetAllSemesterQuery(params);
    
    const tableData = semesterData?.data?.map(({_id, name, year, startMonth, endMonth}) =>({
       key:_id,
@@ -18,7 +19,7 @@ const AcademicSemester = () => {
    }))
 
    
- type TTableData = Pick<TAcademicSemester, "_id" | "name" | "year" | "startMonth" | "endMonth">
+ type TTableData = Pick<TAcademicSemester,  "name" | "year" | "startMonth" | "endMonth">
 
 const columns: TableColumnsType<TTableData> = [
    {
@@ -41,15 +42,15 @@ const columns: TableColumnsType<TTableData> = [
       ],
       // specify the condition of filtering result
       // here is that finding the name started with `value`
-      onFilter: (value: string, record) => record.name.indexOf(value) === 0,
-      sorter: (a, b) => a.name.length - b.name.length,
-      sortDirections: ['descend'],
+      // onFilter: (value: string, record) => record.name.indexOf(value) === 0,
+      // sorter: (a, b) => a.name.length - b.name.length,
+      // sortDirections: ['descend'],
     },
   {
     title: 'Year',
     dataIndex: 'year',
-    defaultSortOrder: 'descend',
-    sorter: (a, b) => a.year - b.year,
+   //  defaultSortOrder: 'descend',
+   //  sorter: (a, b) => a.year - b.year,
     filters: [
       {
         text: '2024',
@@ -85,9 +86,13 @@ const columns: TableColumnsType<TTableData> = [
 ];
 
 
-const onChange: TableProps<TTableData>['onChange'] = (pagination, filters, sorter, extra) => {
+const onChange: TableProps<TTableData>['onChange'] = (
+   _pagination,
+   filters,
+   _sorter,
+   extra) => {
    if(extra.action === 'filter'){
-      const queryParams = [];
+      const queryParams: TQueryParm[] = [];
 
       filters.name?.forEach((item)=> 
       queryParams.push({name: 'name', value: item})
@@ -103,7 +108,7 @@ const onChange: TableProps<TTableData>['onChange'] = (pagination, filters, sorte
 
 
    return (
-      <Table columns={columns} dataSource={tableData} onChange={onChange} />
+      <Table loading={isFetching} columns={columns} dataSource={tableData} onChange={onChange} />
    );
 };
 
