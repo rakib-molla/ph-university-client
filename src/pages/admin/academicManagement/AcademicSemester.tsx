@@ -3,12 +3,14 @@ import { useGetAllSemesterQuery } from "../../../redux/features/admin/academicMa
 import { Table } from 'antd';
 import type { TableColumnsType, TableProps } from 'antd';
 import { TAcademicSemester } from "../../../types/academicManagement.type";
+import { useState } from "react";
 
 const AcademicSemester = () => {
-   const {data: semesterData} = useGetAllSemesterQuery([{name: 'year', value: '2024'}]);
+   const [params, setParams] = useState([]);
+   const {data: semesterData} = useGetAllSemesterQuery(params);
    
    const tableData = semesterData?.data?.map(({_id, name, year, startMonth, endMonth}) =>({
-      _id,
+      key:_id,
       name,
       year,
       startMonth,
@@ -24,27 +26,18 @@ const columns: TableColumnsType<TTableData> = [
       dataIndex: 'name',
       filters: [
         {
-          text: 'Joe',
-          value: 'Joe',
+          text: 'Autumn',
+          value: 'Autumn',
         },
         {
-          text: 'Jim',
-          value: 'Jim',
+          text: 'Summer',
+          value: 'Summer',
         },
         {
-          text: 'Submenu',
-          value: 'Submenu',
-          children: [
-            {
-              text: 'Green',
-              value: 'Green',
-            },
-            {
-              text: 'Black',
-              value: 'Black',
-            },
-          ],
+          text: 'Fall',
+          value: 'Fall',
         },
+       
       ],
       // specify the condition of filtering result
       // here is that finding the name started with `value`
@@ -57,6 +50,29 @@ const columns: TableColumnsType<TTableData> = [
     dataIndex: 'year',
     defaultSortOrder: 'descend',
     sorter: (a, b) => a.year - b.year,
+    filters: [
+      {
+        text: '2024',
+        value: '2024',
+      },
+      {
+        text: '2025',
+        value: '2025',
+      },
+      {
+        text: '2026',
+        value: '2026',
+      },
+      {
+        text: '2027',
+        value: '2027',
+      },
+      {
+        text: '2028',
+        value: '2028',
+      },
+     
+    ],
   },
   {
     title: 'Start Month',
@@ -70,8 +86,18 @@ const columns: TableColumnsType<TTableData> = [
 
 
 const onChange: TableProps<TTableData>['onChange'] = (pagination, filters, sorter, extra) => {
-  console.log('params', pagination, filters, sorter, extra);
-  console.log(filters);
+   if(extra.action === 'filter'){
+      const queryParams = [];
+
+      filters.name?.forEach((item)=> 
+      queryParams.push({name: 'name', value: item})
+      );
+      filters.year?.forEach((item)=> 
+      queryParams.push({name: 'year', value: item})
+      );
+
+      setParams(queryParams);
+   }
 };
 
 
