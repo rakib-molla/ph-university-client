@@ -8,7 +8,7 @@ import { Button, Table, TableColumnsType, TableProps } from "antd";
 const AcademicDepartment = () => {
    const [params, setParams] = useState<TQueryParm[] | undefined>([]);
    const { data:allAcademicDepartment, isFetching } = useGetAllAcademicDepartmentQuery(params);
-   console.log(allAcademicDepartment);
+   
 
    
    
@@ -19,7 +19,7 @@ const AcademicDepartment = () => {
    }))
 
    
- type TTableData = Pick<TAcademicSemester,  "name" | "year" | "startMonth" | "endMonth">
+ type TTableData = Pick<TAcademicSemester,  "name">
 
 const columns: TableColumnsType<TTableData> = [
    {
@@ -72,12 +72,13 @@ const onChange: TableProps<TTableData>['onChange'] = (
       filters.name?.forEach((item)=> 
       queryParams.push({name: 'name', value: item})
       );
-      filters.year?.forEach((item)=> 
-      queryParams.push({name: 'year', value: item})
+      filters.academicFaculty?.forEach((item)=> 
+      queryParams.push({name: 'item.academicFaculty', value: item})
       );
 
       setParams(queryParams);
    }
+   console.log(filters);
 };
 
 
