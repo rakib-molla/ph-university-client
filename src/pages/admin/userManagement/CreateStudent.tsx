@@ -7,6 +7,8 @@ import { bloodGroupOptions, genderOptions } from "../../../constants/global";
 import PHDatePicker from "../../../components/form/PHDatePicker";
 import { useGetAllSemesterQuery } from "../../../redux/features/admin/academicManagementApi";
 import Item from "antd/es/list/Item";
+import { useGetAllAcademicDepartmentQuery } from "../../../redux/features/admin/academicDepartmentManagement";
+import { useAddStudentMutation } from "../../../redux/features/admin/userManagement.api";
 
 const studentDummyData = {
   password: "student123",
@@ -90,20 +92,35 @@ const studentDefaultValues = {
  };
 
 const CreateStudent = () => {
+   const [addStudent, {data, error}] = useAddStudentMutation();
+
+   console.log({data, error});
+
    const {data: sData, isLoading: sIsLoading} = useGetAllSemesterQuery(undefined);
-   console.log(sData);
+   
+
+   const {data: dData, isLoading: dIsLoading } = useGetAllAcademicDepartmentQuery(undefined)
 
    const semesterOptions = sData?.data?.map((item)=>({
       value: item._id,
       label: `${item.name} ${item.year}`
    }))
 
+   const departmentOptions = dData?.data?.map((item)=>({
+      value: item._id,
+      label: item.name,
+   }))
+
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
+    
+   const studentData = {
+      password: "student123",
+      student: data,
+   }
 
-   //  const formData = new FormData();
-
-   //  formData.append("data", JSON.stringify(data));
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(studentData));
+    addStudent(formData);
 
    //  console.log(Object.fromEntries(formData));
   };
@@ -186,7 +203,7 @@ const CreateStudent = () => {
                <PHSelect disabled={sIsLoading} options={semesterOptions} name="admissionSemester" label="Admission Semester"/>
             </Col>
             <Col span={8} md={{span: 12}} lg={{span: 8}}>
-               <PHSelect name="academicDepartment" label="Academic Department"/>
+               <PHSelect options={departmentOptions} disabled={dIsLoading} name="academicDepartment" label="Academic Department"/>
             </Col>
           </Row>
 
