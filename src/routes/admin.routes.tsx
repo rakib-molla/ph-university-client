@@ -9,6 +9,7 @@ import CreateAcademicSemester from "../pages/admin/academicManagement/CreateAcad
 import CreateAdmin from "../pages/admin/userManagement/CreateAdmin";
 import CreateAcademicFaculty from "./../pages/admin/academicManagement/CreateAcademicFaculty";
 import StudentData from "../pages/admin/userManagement/StudentData";
+import StudentDetails from "../pages/admin/userManagement/StudentDetails";
 
 export const adminPaths = [
   {
@@ -73,6 +74,11 @@ export const adminPaths = [
         name: "Students",
         path: "students-data",
         element: <StudentData />,
+      },
+      {
+        
+        path: "student-data/:studentID",
+        element: <StudentDetails />,
       },
       {
         name: "Create Member",

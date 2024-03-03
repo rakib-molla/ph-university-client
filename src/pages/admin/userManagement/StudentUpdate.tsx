@@ -1,3 +1,5 @@
+
+
 import { Controller, FieldValues, SubmitHandler } from "react-hook-form";
 import PHForm from "../../../components/form/PHForm";
 import PHInput from "../../../components/form/PHInput";
@@ -90,7 +92,7 @@ const studentDefaultValues = {
   //   academicDepartment: "65b00fb010b74fcbd7a25d8e",
 };
 
-const CreateStudent = () => {
+const StudentUpdate = () => {
   const [addStudent, { data, error }] = useAddStudentMutation();
 
   console.log({ data, error });
@@ -293,4 +295,4 @@ const CreateStudent = () => {
   );
 };
 
-export default CreateStudent;
+export default StudentUpdate;
