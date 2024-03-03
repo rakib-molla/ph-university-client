@@ -1,5 +1,5 @@
 
-import { Button, Space, Table } from 'antd';
+import { Button, Pagination, Space, Table } from 'antd';
 import type { TableColumnsType, TableProps } from 'antd';
 import { useState } from "react";
 import { TQueryParm } from "../../../types/global";
@@ -14,7 +14,7 @@ const StudentData = () => {
       {name: "page", value: page},
       {name: "sort", value: "id"},
       ...params]);
-   
+   const metaData = studentData?.meta;
    const tableData = studentData?.data?.map(({_id, fullName, id }) =>({
       key:_id,
       fullName,
@@ -22,7 +22,7 @@ const StudentData = () => {
    }))
 
    
- type TTableData = Pick<TStudent,  "name" | "_id" | "id">
+ type TTableData = Pick<TStudent,  "fullName" |  "id">
 
 const columns: TableColumnsType<TTableData> = [
    {
@@ -75,7 +75,15 @@ const onChange: TableProps<TTableData>['onChange'] = (
 
 
    return (
-      <Table loading={isFetching} columns={columns} dataSource={tableData} onChange={onChange} />
+      <> 
+      <Table loading={isFetching} columns={columns} dataSource={tableData} onChange={onChange} pagination={false}/>
+      <Pagination 
+      current={page}
+      onChange={(value)=> setPage(value)}
+      pageSize={metaData?.limit}
+      total={metaData?.total}
+      />
+      </>
    );
 };
 
