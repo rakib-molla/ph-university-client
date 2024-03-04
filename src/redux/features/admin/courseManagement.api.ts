@@ -62,7 +62,7 @@ const courseManagementApi = baseApi.injectEndpoints({
             params: params,
            }
          },
-         providesTags:['semester'],
+         providesTags:['courses'],
          transformResponse:(response: TResponseRedux<any>)=>{
             // console.log("inside redux",response);
             return {
@@ -71,7 +71,15 @@ const courseManagementApi = baseApi.injectEndpoints({
             }
          }
       }),
+      addCourses : builder.mutation({
+         query:(data)=>({
+            url: '/courses/create-course',
+            method: 'POST',
+            body: data
+         }),
+         invalidatesTags:['courses'],
+      }),
    }),
 })
 
-export const { useGetAllRegisterSemesterQuery,useAddRegisterSemesterMutation, useUpdateRegisterSemesterMutation, useGetAllCoursesQuery } = courseManagementApi
+export const { useGetAllRegisterSemesterQuery,useAddRegisterSemesterMutation, useUpdateRegisterSemesterMutation, useGetAllCoursesQuery , useAddCoursesMutation} = courseManagementApi

@@ -4,21 +4,22 @@ import { Button, Col, Flex } from "antd";
 import {  toast } from "sonner";
 import PHSelect from "../../../components/form/PHSelect";
 import PHInput from "../../../components/form/PHInput";
-import { useAddRegisterSemesterMutation, useGetAllCoursesQuery } from "../../../redux/features/admin/courseManagement.api";
+import { useAddCoursesMutation, useGetAllCoursesQuery } from "../../../redux/features/admin/courseManagement.api";
+import { TResponse } from "../../../types/global";
 
 
 
 const CreateCourse = () => {
-   const [addSemester, {data, isError}] = useAddRegisterSemesterMutation();
+   const [addCourses, {data, isError}] = useAddCoursesMutation();
 
    console.log(data);
 
    const {data: courses} = useGetAllCoursesQuery(undefined)
    
-console.log(courses);
+
    const preRequisiteCoursesOPtions = courses?.data?.map((item)=>({
       value: item._id,
-      label: item._id,
+      label: item.title,
    }))
 
    const onSubmit: SubmitHandler<FieldValues> = async(data)=>{
@@ -26,27 +27,29 @@ console.log(courses);
 
       const courseData = {
          ...data,
+         code: Number(data.code),
+         credits: Number(data.credits),
          isDeleted: false,
-         preRequisiteCourses: data.preRequisiteCourses.map((item)=>({
+         preRequisiteCourses: data.preRequisiteCourses ? data.preRequisiteCourses?.map((item)=>({
             course: item,
             isDeleted: false,
-         }))
+         })): [],
       }
       console.log(courseData);
 
-      // try{
-      //  const res = await  addSemester(semesterData) as TResponse<any>;
-      //  console.log(res);
-      //  if (res.error) {
-      //    toast.error(res.error.data.message , {id: toastId , duration: 2000});
-      //  }else{
-      //       toast.success("Academic Semester Created" , {id: toastId , duration: 2000});
+      try{
+       const res = await  addCourses(courseData) as TResponse<any>;
+       console.log(res);
+       if (res.error) {
+         toast.error(res.error.data.message , {id: toastId , duration: 2000});
+       }else{
+            toast.success("Academic Semester Created" , {id: toastId , duration: 2000});
          
-      //  }
-      // }catch(error){
-      //    console.log(error);
-      //    toast.error("Something Wrong" , {id: toastId , duration: 2000});
-      // }
+       }
+      }catch(error){
+         console.log(error);
+         toast.error("Something Wrong" , {id: toastId , duration: 2000});
+      }
       
    }
 
