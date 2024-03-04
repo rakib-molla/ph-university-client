@@ -52,5 +52,6 @@ if(result?.error?.status == 404){
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: baseQueryWithRefreshToken,
+  tagTypes:['semester'],
   endpoints: () => ({}),
 });

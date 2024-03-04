@@ -2,7 +2,7 @@ import { Button, Dropdown, Table, Tag } from 'antd';
 import type { TableColumnsType, TableProps } from 'antd';
 import { useState } from "react";
 import { TQueryParm } from "../../../types/global";
-import { useGetAllRegisterSemesterQuery } from "../../../redux/features/admin/courseManagement.api";
+import { useGetAllRegisterSemesterQuery, useUpdateRegisterSemesterMutation } from "../../../redux/features/admin/courseManagement.api";
 import moment from "moment";
 import { TSemester } from '../../../types';
 type TTableData = Pick<TSemester,  "_id" | "academicSemester" | "status" | "startDate" | "endDate">
@@ -27,6 +27,8 @@ const items = [
 const RegisteredSemester = () => {
 
    // const [params, setParams] = useState<TQueryParm[] | undefined>([]);
+   const [updateSemesterStatus,] = useUpdateRegisterSemesterMutation();
+   const [semesterId, setSemesterId] = useState('');
 
    const {data: SemesterData, isFetching } = useGetAllRegisterSemesterQuery(undefined);
 
@@ -38,12 +40,20 @@ const RegisteredSemester = () => {
       endDate:moment(new Date(endDate)).format("MMMM"),
    }))
 
-   const handleStatusDropdown = (data)=>{
-      console.log(data);
+   const handleStatusUpdate = (data)=>{
+      console.log('semesterId',semesterId);
+      console.log('upco', data.key);
+      const updateData = {
+         id: semesterId,
+         data: {
+            status: data.key
+         }
+      }
+      updateSemesterStatus(updateData);
    }
    const menuProps = {
       items,
-      onClick: handleStatusDropdown,
+      onClick: handleStatusUpdate,
    }
 
 const columns: TableColumnsType<TTableData> = [
@@ -85,12 +95,13 @@ const columns: TableColumnsType<TTableData> = [
   },
   {
     title: 'Action',
-    dataIndex: 'x',
-    render: ()=>{
+    key: 'x',
+    render: (item)=>{
+      // console.log(item);
       return (
          <div>
-            <Dropdown menu={menuProps}>
-               <Button>Update</Button>
+            <Dropdown menu={menuProps} trigger={['click']}>
+               <Button onClick={()=> setSemesterId(item.key)}>Update</Button>
             </Dropdown>
          </div>
       )
