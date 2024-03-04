@@ -6,11 +6,16 @@ import {  toast } from "sonner";
 import PHSelect from "../../../components/form/PHSelect";
 import PHInput from "../../../components/form/PHInput";
 import PHDatePicker from "../../../components/form/PHDatePicker";
+import { useAddRegisterSemesterMutation } from "../../../redux/features/admin/courseManagement.api";
+import { TResponse } from "../../../types/global";
 
 
 
 const SemesterRegistration = () => {
-   
+   const [addSemester, {data, isError}] = useAddRegisterSemesterMutation();
+
+   console.log(data);
+
    const {data: academicSemester} = useGetAllSemesterQuery([
       {name: 'sort', value: 'year'}
    ]);
@@ -19,29 +24,31 @@ const SemesterRegistration = () => {
       label: `${item.name} ${item.year}`
    })) : [] ;
 
-   console.log(academicSemester);
+   
 
    const onSubmit: SubmitHandler<FieldValues> = async(data)=>{
       const toastId = toast.loading("Creating");
 
       const semesterData = {
-         ...data
+         ...data,
+         minCredit: Number(data.minCredit),
+         maxCredit: Number(data.maxCredit),
       }
       console.log(semesterData);
 
-      // try{
-      //  const res = await  addAcademicSemester(semesterData) as TResponse;
-      //  console.log(res);
-      //  if (res.error) {
-      //    toast.error(res.error.data.message , {id: toastId , duration: 2000});
-      //  }else{
-      //       toast.success("Academic Semester Created" , {id: toastId , duration: 2000});
+      try{
+       const res = await  addSemester(semesterData) as TResponse<any>;
+       console.log(res);
+       if (res.error) {
+         toast.error(res.error.data.message , {id: toastId , duration: 2000});
+       }else{
+            toast.success("Academic Semester Created" , {id: toastId , duration: 2000});
          
-      //  }
-      // }catch(error){
-      //    console.log(error);
-      //    toast.error("Something Wrong" , {id: toastId , duration: 2000});
-      // }
+       }
+      }catch(error){
+         console.log(error);
+         toast.error("Something Wrong" , {id: toastId , duration: 2000});
+      }
       
    }
   const semesterStatusOPtions = [
