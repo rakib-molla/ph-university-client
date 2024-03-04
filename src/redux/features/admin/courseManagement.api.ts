@@ -1,31 +1,33 @@
+import { TSemester } from "../../../types";
+import { TQueryParm, TResponseRedux } from "../../../types/global";
 import { baseApi } from "../../api/baseApi";
 
 const courseManagementApi = baseApi.injectEndpoints({
    endpoints: (builder)=>({
-      // getAllRegisterSemester : builder.query({
-      //    query: (args)=>{
-      //       const params = new URLSearchParams();
+      getAllRegisterSemester : builder.query({
+         query: (args)=>{
+            const params = new URLSearchParams();
             
-      //       if(args){
-      //          args.forEach((item: TQueryParm)=>{
-      //             params.append(item.name, item.value as string);
-      //          })
-      //       }
+            if(args){
+               args.forEach((item: TQueryParm)=>{
+                  params.append(item.name, item.value as string);
+               })
+            }
             
-      //      return {
-      //       url: '/academic-semesters',
-      //       method: 'GET',
-      //       params: params,
-      //      }
-      //    },
-      //    transformResponse:(response: TResponseRedux<TAcademicSemester[]>)=>{
-      //       // console.log("inside redux",response);
-      //       return {
-      //          data: response.data,
-      //          meta: response.meta,
-      //       }
-      //    }
-      // }),
+           return {
+            url: '/semester-registrations',
+            method: 'GET',
+            params: params,
+           }
+         },
+         transformResponse:(response: TResponseRedux<TSemester[]>)=>{
+            // console.log("inside redux",response);
+            return {
+               data: response.data,
+               meta: response.meta,
+            }
+         }
+      }),
 
       addRegisterSemester : builder.mutation({
          query:(data)=>({
@@ -37,4 +39,4 @@ const courseManagementApi = baseApi.injectEndpoints({
    }),
 })
 
-export const { useAddRegisterSemesterMutation } = courseManagementApi
+export const { useGetAllRegisterSemesterQuery,useAddRegisterSemesterMutation } = courseManagementApi
